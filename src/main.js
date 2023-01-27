@@ -15,8 +15,6 @@ Vue.use(VueSweetAlert2)
 // axios를 root 전역으로 사용하기 위하여 추가
 Vue.prototype.$axios = axios
 
-// axios.defaults.baseURL = "http://localhost:8090";
-// axios.defaults.withCredentials = false;
 
 Vue.config.productionTip = false
 
