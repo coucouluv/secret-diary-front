@@ -6,7 +6,11 @@ Vue.use(VueRouter)
 
 
 const routes = [
-
+  {
+    path: '/',
+    name: "start",
+    component: () => import('@/views/HomePage.vue'),
+  },
 ]
 
 const router = new VueRouter({
