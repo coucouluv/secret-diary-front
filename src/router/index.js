@@ -17,6 +17,22 @@ const routes = [
     component: () =>
       import("@/views/sign/RegisterPage.vue")
   },
+  {
+    path: "/signin",
+    name: "signin",
+    component: () =>
+      import("@/views/sign/SignInPage.vue")
+  },
+  {
+    path: '/signin/finduserid',
+    name: "finduserid",
+    component: () => import('@/views/sign/FindUserIdPage.vue'),
+  },
+  {
+    path: '/signin/findpassword',
+    name: "findpassword",
+    component: () => import('@/views/sign/FindPasswordPage.vue'),
+  },
 ]
 
 const router = new VueRouter({

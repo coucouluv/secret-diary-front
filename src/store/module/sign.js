@@ -2,7 +2,19 @@ import Sign from '@/api/module/sign.js';
 import Index from '@/store/index.js';
 import router from '@/router/index.js'
 
+
+const state = {
+  userId: ""
+};
+const getters = {
+  GET_USERID(state) {
+      return state.userId;
+  },
+};
 const mutations = {
+  SET_USERID(state, data) {
+    state.userId = data;
+  },
   SET_SIGN_STATUS(state, data) {
     Index.state.isSignin = data;
     localStorage.setItem('signin',true);
@@ -28,12 +40,20 @@ const actions = {
   },
   async REGISTER({ commit }, registerRequest ) {
     await Sign.register(registerRequest);
+  },
+  async PASSWORD({ commit }, passwordRequset ) {
+    await Sign.findPassword(passwordRequset);
+  },
+  async USERID({ commit }, email ) {
+    const res = await Sign.findUserId(email);
+    console.log(res.data);
+    commit("SET_USERID", res.data.data);
   }
 };
   
 export default {
-  // state,
-  // getters,
+  state,
+  getters,
   mutations,
   actions,
 
