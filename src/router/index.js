@@ -33,6 +33,11 @@ const routes = [
     name: "findpassword",
     component: () => import('@/views/sign/FindPasswordPage.vue'),
   },
+  {
+    path: '/friend',
+    name: "friend",
+    component: () => import("@/views/friend/FriendPage.vue"),
+  },
 ]
 
 const router = new VueRouter({
