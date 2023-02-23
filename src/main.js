@@ -7,7 +7,12 @@ import Vuelidate from 'vuelidate'
 import axios from 'axios'
 import VueSweetAlert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+library.add(fas)
 
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 // Vue.use(Vuelidate)
 Vue.use(axios)
 Vue.use(VueSweetAlert2)

@@ -105,7 +105,7 @@
           console.log(error);
           Swal.fire({
             position: 'center',
-            icon: 'success',
+            icon: 'warning',
             width: 400,
             text: error.message,
             showConfirmButton: false,
@@ -115,7 +115,7 @@
       },
       diary(userId, event) {
         console.log(userId)
-        this.$router.push({name: 'diarys', params: {friendId: userId}})
+        this.$router.push({name: 'diaries', query: {id: userId}})
       }
     },
   }

@@ -1,7 +1,6 @@
 import Vue from "vue"
 import VueRouter from "vue-router"
-
-
+import store from "@/store/index.js"
 Vue.use(VueRouter)
 
 
@@ -37,6 +36,24 @@ const routes = [
     path: '/friend',
     name: "friend",
     component: () => import("@/views/friend/FriendPage.vue"),
+  },
+  {
+    path: '/diaries',
+    name: "diaries",
+    props: true,
+    component: () => import('@/views/diary/DiariesPage.vue'),
+  },
+  {
+    path: '/diary',
+    name: "diary",
+    props: true,
+    component: () => import('@/views/diary/DiaryPage.vue'),
+  },
+  {
+    path: '/diary/register',
+    name: "diaryRegister",
+    props: true,
+    component: () => import('@/views/diary/DiaryRegisterPage.vue'),
   },
 ]
 
