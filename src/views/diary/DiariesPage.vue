@@ -26,7 +26,7 @@
                     :key="card.title"
                     :cols="4"
                     >
-                    <v-card @click="show(card.diaryId, $event)">
+                    <v-card @click="show(card.diaryId, card.url, $event)">
                         <v-img
                         :src="card.url"
                         gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
@@ -100,8 +100,8 @@ export default {
         register() {
             this.$router.push({name: 'diaryRegister', query: {id: this.request.friendId}})
         },
-        show(diaryId, event) {
-            this.$router.push({name: 'diary', query: {id: this.request.friendId, diary: diaryId}})
+        show(diaryId, url, event) {
+            this.$router.push({name: 'diary', query: {id: this.request.friendId, diary: diaryId, url: url}})
         }
     }
 }
