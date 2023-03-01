@@ -14,8 +14,11 @@
                 <v-btn icon>
                     <font-awesome-icon icon="fa-solid fa-pen-to-square" size="lg" color="#c6b3a6"/>
                 </v-btn>
+                <v-btn icon @click="deleteMsg">
+                    <font-awesome-icon icon="fa-solid fa-trash" size="lg" color="#c6b3a6"/>
+                </v-btn>
                 <v-spacer></v-spacer>
-                <v-btn icon @click="cancel">
+                <v-btn icon @click="back">
                     <font-awesome-icon icon="fa-solid fa-xmark" size="lg" color="#c6b3a6"/>
                 </v-btn>
             </v-app-bar>
@@ -24,7 +27,7 @@
                     <div> <p class="text-h5">{{ diary.title }} </p></div>
                 </v-row>
                 <v-row dense class="img">
-                    <v-img v-if="diary.url" height="400" width="250" :src="diary.src"></v-img>
+                    <v-img v-if="url" height="400" width="250" :src="url"></v-img>
                 </v-row>
                 <v-row dense>
                     <div> <p class="text-h7">{{ diary.text }} </p></div>
@@ -46,7 +49,8 @@ export default {
         diary: {
         },
         diaryId: '',
-        friendId: ''
+        friendId: '',
+        url: ''
     }),
     computed: {
     ...mapGetters(["GET_DIARY"])
@@ -54,29 +58,51 @@ export default {
     created() {
         this.friendId = this.$route.query.id
         this.diaryId = this.$route.query.diary
+        this.url = this.$route.query.url
         this.initdiary()
     },
     methods: {
-        ...mapActions(["DIARY"]),
+        ...mapActions(["DIARY", "DELETE_DIARY"]),
         async initdiary() {
             try {
                 await this.DIARY(this.diaryId)
                 this.diary = this.GET_DIARY
             } catch(error) {
                 console.log(error)
-                Swal.fire({
-                    position: 'center',
-                    icon: 'warning',
-                    width: 400,
-                    title: '<div style="font-size: 18px; font-family: "Spoqa Han Sans Neo", "sans-serif"; ">다이어리 실패<div>',
-                    text: this.diaryId,
-                    showConfirmButton: false,
-                    timer: 3000,
-                })
             }
         },
-        cancel() {
+        back() {
             this.$router.push({name: 'diaries', query: {id: this.friendId}})
+        },
+        deleteMsg() {
+            Swal.fire({
+                position: 'center',
+                icon: 'warning',
+                width: 400,
+                title: '<div style="font-size: 18px; font-family: "Spoqa Han Sans Neo", "sans-serif"; ">다이어리를 삭제하시겠습니까?<div>',
+                confirmButtonText: '확인',
+                cancelButtonText: '취소',
+                showCancelButton: true,
+                showConfirmButton: true,
+                cancelButtonColor: '#c6b3a6',
+                confirmButtonColor: '#c6b3a6'
+            }).then((result) => {
+                if(result.value) {
+                    this.deleteDiary()
+                }
+            })
+        },
+        async deleteDiary() {
+            try {
+                // await this.UPLOAD()
+                // this.$axios.delete(this.GET_PRESIGNED, this.url,{
+                //     headers: { "Content-Type": `image/jpeg`}
+                // })
+                this.DELETE_DIARY(this.diaryId)
+                this.back()
+            } catch(error) {
+                console.log(error)
+            }
         }
     }
 }
