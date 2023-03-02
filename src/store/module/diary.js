@@ -32,8 +32,6 @@ const state = {
   };
   const actions = {
     async DIARIES({ commit }, request) {
-      console.log(request.page)
-      console.log(request.size)
       const res = await Diary.getDiaries(request);
       commit("SET_DIARIES", res.data);
     },
@@ -47,6 +45,9 @@ const state = {
     },
     async DELETE_DIARY({ commit }, diaryId) {
       await Diary.deleteDiary(diaryId);
+    },
+    async UPDATE_DIARY({commit}, diaryRequest) {
+      await Diary.updateDiary(diaryRequest);
     }
   };
   

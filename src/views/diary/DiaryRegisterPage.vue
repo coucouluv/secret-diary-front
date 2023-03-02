@@ -79,16 +79,22 @@ export default {
         preview: '',
         url: {},
         isError: false,
-        errorMsg: "",
+        errorMsg: ""
     }),
     computed: {
     ...mapGetters(["GET_URL", "GET_PRESIGNED"])
     },
     created() {
+        this.initDiary()
         this.diary.friendUserId = this.$route.query.id
     },
     methods: {
-        ...mapActions(["UPLOAD", "SHARE", "SAVE_DIARY", "UPLOAD_S3"]),
+        ...mapActions(["UPLOAD", "SHARE", "SAVE_DIARY", "UPLOAD_S3", "UPDATE_DIARY"]),
+        initDiary() {
+            if(this.$route.params.diary) {
+                this.diary = this.$route.params.diary
+            }
+        },
         previewFile(file) {
             console.log(file)
             const fileData = (data) => {
@@ -107,7 +113,6 @@ export default {
                     this.errorMsg = "제목과 내용은 필수입니다."
                     return
                 }
-                console.log(this.url)
                 if(this.url.name) {
                     if(this.url.size >= 2000000 || this.url.type !== "image/jpeg") {
                         Swal.fire({
@@ -126,22 +131,41 @@ export default {
                     })
                     this.diary.url = this.GET_URL
                 } 
-                await this.SAVE_DIARY(this.diary)
+                if(this.diary.diaryId) {
+                    const request = {
+                        diaryId: this.diary.diaryId,
+                        title: this.diary.title,
+                        text: this.diary.text,
+                        url: this.diary.url
+                    }
+                    await this.UPDATE_DIARY(request)
+                }
+                else {
+                    await this.SAVE_DIARY(this.diary)
+                }
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
                     width: 400,
                     text: '다이어리 저장 완료!',
                     showConfirmButton: false,
-                    timer: 3000,
+                    timer: 1500,
 			    })
                 this.$router.push({name: 'diaries', query: {id: this.diary.friendUserId}})
             } catch(error) {
-                console.log(error)
+                Swal.fire({
+                    position: 'center',
+                    icon: 'warning',
+                    width: 400,
+                    text: error.response.data.message,
+                    showConfirmButton: false,
+                    timer: 1500,
+			    })
             }
         },
         cancel() {
             this.$router.push({name: 'diaries', query: {id: this.diary.friendUserId}})
+
         }
     }
 }

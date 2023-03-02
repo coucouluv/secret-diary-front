@@ -11,7 +11,7 @@
                 color="white"
                 dense
             >
-                <v-btn icon>
+                <v-btn icon @click="update">
                     <font-awesome-icon icon="fa-solid fa-pen-to-square" size="lg" color="#c6b3a6"/>
                 </v-btn>
                 <v-btn icon @click="deleteMsg">
@@ -22,12 +22,16 @@
                     <font-awesome-icon icon="fa-solid fa-xmark" size="lg" color="#c6b3a6"/>
                 </v-btn>
             </v-app-bar>
+            <v-card-subtitle>
+                <font-awesome-icon icon="fa-solid fa-calendar-days" color="#c6b3a6"/>
+                {{diary.saveDate}}
+            </v-card-subtitle>
             <v-card-text>
-                <v-row dense class="bar">
+                <v-row dense>
                     <div> <p class="text-h5">{{ diary.title }} </p></div>
                 </v-row>
                 <v-row dense class="img">
-                    <v-img v-if="url" height="400" width="250" :src="url"></v-img>
+                    <v-img v-if="presignedUrl" height="400" width="250" :src="presignedUrl"></v-img>
                 </v-row>
                 <v-row dense>
                     <div> <p class="text-h7">{{ diary.text }} </p></div>
@@ -50,19 +54,19 @@ export default {
         },
         diaryId: '',
         friendId: '',
-        url: ''
+        presignedUrl: ''
     }),
     computed: {
-    ...mapGetters(["GET_DIARY"])
+    ...mapGetters(["GET_DIARY", "GET_PRESIGNED"])
     },
     created() {
         this.friendId = this.$route.query.id
         this.diaryId = this.$route.query.diary
-        this.url = this.$route.query.url
+        this.presignedUrl = this.$route.query.url
         this.initdiary()
     },
     methods: {
-        ...mapActions(["DIARY", "DELETE_DIARY"]),
+        ...mapActions(["DIARY", "DELETE_DIARY", "DELETE"]),
         async initdiary() {
             try {
                 await this.DIARY(this.diaryId)
@@ -73,6 +77,9 @@ export default {
         },
         back() {
             this.$router.push({name: 'diaries', query: {id: this.friendId}})
+        },
+        update() {
+            this.$router.push({name: 'diaryRegister', query: {id: this.friendId}, params: {diary: this.diary}})
         },
         deleteMsg() {
             Swal.fire({
@@ -94,13 +101,14 @@ export default {
         },
         async deleteDiary() {
             try {
-                // await this.UPLOAD()
-                // this.$axios.delete(this.GET_PRESIGNED, this.url,{
-                //     headers: { "Content-Type": `image/jpeg`}
-                // })
-                this.DELETE_DIARY(this.diaryId)
+                await this.DELETE(this.diary.url)
+                const deleteUrl = this.GET_PRESIGNED
+                this.$axios.delete(deleteUrl)
+
+                await this.DELETE_DIARY(this.diaryId)
                 this.back()
             } catch(error) {
+                //여기서 친구가 작성한 다이어리는 삭제 못함
                 console.log(error)
             }
         }

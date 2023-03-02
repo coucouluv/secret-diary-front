@@ -48,7 +48,6 @@
 <script>
 import DiarySystemBar from '@/components/DiarySystemBar.vue';
 import { mapActions, mapGetters } from 'vuex';
-import Swal from 'sweetalert2';
 import InfiniteLoading from 'vue-infinite-loading';
 
 export default {
@@ -87,14 +86,6 @@ export default {
                 }
             } catch(error) {
                 console.log(error)
-                Swal.fire({
-                    position: 'center',
-                    icon: 'warning',
-                    width: 400,
-                    title: '<div style="font-size: 18px; font-family: "Spoqa Han Sans Neo", "sans-serif"; ">다이어리 목록 실패<div>',
-                    showConfirmButton: false,
-                    timer: 3000,
-                }) 
             }
         },
         register() {
