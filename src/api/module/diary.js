@@ -14,6 +14,9 @@ const diary = {
     },
     deleteDiary(diaryId) {
         return instanceWithToken.delete(`${BASE_URL}/${diaryId}`);
+    },
+    updateDiary(diaryRequest) {
+        return instanceWithToken.patch(`${BASE_URL}`, diaryRequest);
     }
 }
 
