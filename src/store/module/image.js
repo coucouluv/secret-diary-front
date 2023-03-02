@@ -17,8 +17,8 @@ const state = {
       state.url = data.url;
       state.preSignedUrl = data.preSignedUrl;
     },
-    SET_PRESIGNED(state, preSignedUrl) {
-      state.preSignedUrl = preSignedUrl;
+    SET_PRESIGNED(state, data) {
+      state.preSignedUrl = data.preSignedUrl;
     },
   };
   const actions = {
