@@ -6,7 +6,7 @@
             max-width="1000"
             min-height="400"
         >
-            <diary-system-bar/>
+            <system-bar/>
             <v-app-bar
                 color="white"
                 dense
@@ -27,6 +27,7 @@
                     <v-text-field
                         outlined
                         v-model="diary.title"
+                        maxlength="50"
                         label="제목을 입력하세요."
                     ></v-text-field>
                 </v-row>
@@ -35,14 +36,15 @@
                 </v-row>
                 <v-row dense>
                     <v-textarea
-                    outlined
-                    filled
-                    auto-grow
-                    rows="10"
-                    row-height="30"
-                    shaped
-                    v-model="diary.text"
-                    label="내용을 입력하세요."
+                        outlined
+                        filled
+                        auto-grow
+                        rows="10"
+                        maxlength="500"
+                        row-height="30"
+                        shaped
+                        v-model="diary.text"
+                        label="내용을 입력하세요."
                     ></v-textarea>
                 </v-row>
                 <v-row dense>
@@ -62,12 +64,12 @@
 </template>
 
 <script>
-import DiarySystemBar from '@/components/DiarySystemBar.vue';
+import SystemBar from '@/components/SystemBar.vue';
 import { mapActions, mapGetters } from 'vuex';
 import Swal from 'sweetalert2';
 export default {
     components: {
-        DiarySystemBar,
+        SystemBar,
     },
     data: () => ({
         diary: {
@@ -89,7 +91,7 @@ export default {
         this.diary.friendUserId = this.$route.query.id
     },
     methods: {
-        ...mapActions(["UPLOAD", "SHARE", "SAVE_DIARY", "UPLOAD_S3", "UPDATE_DIARY"]),
+        ...mapActions(["UPLOAD", "SHARE","UPLOAD_S3","SAVE_DIARY","UPDATE_DIARY"]),
         initDiary() {
             if(this.$route.params.diary) {
                 this.diary = this.$route.params.diary
@@ -126,7 +128,7 @@ export default {
                         return
                     }
                     await this.UPLOAD()
-                    this.$axios.put(this.GET_PRESIGNED, this.url,{
+                    await this.$axios.put(this.GET_PRESIGNED, this.url,{
                         headers: { "Content-Type": `image/jpeg`}
                     })
                     this.diary.url = this.GET_URL
@@ -171,11 +173,6 @@ export default {
 }
 </script>
 
-<style scoped>
-.bar{
-    margin-top: 1rem;
-}
-.img{
-    margin-bottom: 1rem;
-}
+<style lang="scss" scoped>
+@import './scss/Diary.scss';
 </style>
