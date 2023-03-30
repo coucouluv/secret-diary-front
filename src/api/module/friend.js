@@ -1,18 +1,21 @@
-import { instance } from '@/api/index';
+import { instanceWithToken } from '@/api/index';
 
 const BASE_URL = '/api/friend';
 
-
 const friend = {
-    getFriends() {
-        const token = localStorage.getItem("accessToken");
-        console.log("token: "+ token)
-        instance.defaults.headers.Authorization = 'Bearer '+token;
-        return instance.get(`${BASE_URL}/info`);
-    },
-    applyFriend(friendId) {
-        return instance.post(`${BASE_URL}/apply/${friendId}`);
-    },
-}
+	getFriends(request) {
+		return instanceWithToken.get(
+			`${BASE_URL}?page=${request.page}&size=${request.size}`,
+		);
+	},
+	getWaitingFriends(request) {
+		return instanceWithToken.get(
+			`${BASE_URL}/waiting?page=${request.page}&size=${request.size}`,
+		);
+	},
+	applyFriend(friendId) {
+		return instanceWithToken.post(`${BASE_URL}/apply/${friendId}`);
+	},
+};
 
 export default friend;

@@ -1,35 +1,44 @@
 import Friend from '@/api/module/friend.js';
 
 const state = {
-    friends: {
-    },
-  };
-  const getters = {
-    FRIEND_LIST(state) {
-        return state.friends;
-    },
-  };
-  const mutations = {
-    SET_FRIENDS(state, friends) {
-        state.friends = friends;
-    }
-  };
-  const actions = {
-    async GET_FRIENDS({ commit }) {
-      const res = await Friend.getFriends();
-      console.log(res.data);
-      const friends = res.data;
-      commit("SET_FRIENDS", friends);
-    },
-    async APPLY_FRIEND({ commit }, friendId ) {
-      const res = await Friend.applyFriend(friendId);
-      console.log(res.data);
-    },
-  };
-  
-  export default {
-    state,
-    getters,
-    mutations,
-    actions,
-  };
+	friends: {},
+	waiting: {},
+};
+const getters = {
+	FRIEND_LIST(state) {
+		return state.friends;
+	},
+	WAITING_LIST(state) {
+		return state.waiting;
+	},
+};
+const mutations = {
+	SET_FRIENDS(state, friends) {
+		state.friends = friends;
+	},
+	SET_WAITING(state, waiting) {
+		state.waiting = waiting;
+	},
+};
+const actions = {
+	async GET_FRIENDS({ commit }, request) {
+		const res = await Friend.getFriends(request);
+		const friends = res.data;
+		commit('SET_FRIENDS', friends);
+	},
+	async GET_WAITING({ commit }, request) {
+		const res = await Friend.getWaitingFriends(request);
+		commit('SET_WAITING', res.data);
+	},
+	async APPLY_FRIEND(friendId) {
+		const res = await Friend.applyFriend(friendId);
+		console.log(res.data);
+	},
+};
+
+export default {
+	state,
+	getters,
+	mutations,
+	actions,
+};
