@@ -10,15 +10,15 @@ import Image from '@/store/module/image.js';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-	state: {
-		isSignin: localStorage.getItem('signin') || false,
-	},
-	modules: {
-		Friend,
-		Sign,
-		Diary,
-		Image,
-		Member,
-	},
-	plugins: [createVuexPersistedState()],
+  state: {
+    isSignin: localStorage.getItem('signin') || false,
+  },
+  modules: {
+    Friend,
+    Sign,
+    Diary,
+    Image,
+    Member,
+  },
+  plugins: [createVuexPersistedState()],
 });

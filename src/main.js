@@ -24,9 +24,9 @@ axios.defaults.withCredentials = true;
 Vue.config.productionTip = false;
 
 new Vue({
-	vuetify,
-	router,
-	Vuelidate,
-	store,
-	render: h => h(App),
+  vuetify,
+  router,
+  Vuelidate,
+  store,
+  render: h => h(App),
 }).$mount('#app');
