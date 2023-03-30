@@ -54,7 +54,7 @@
 import SystemBar from '@/components/SystemBar.vue';
 import { mapActions, mapGetters } from 'vuex';
 import InfiniteLoading from 'vue-infinite-loading';
-
+import Swal from 'sweetalert2';
 export default {
 	components: {
 		SystemBar,
@@ -74,7 +74,6 @@ export default {
 	},
 	created() {
 		this.request.friendId = this.$route.query.id;
-		console.log('다이어리 목록 친구 아이디: ', this.request.friendId);
 	},
 	methods: {
 		...mapActions(['DIARIES']),
@@ -90,7 +89,14 @@ export default {
 					$state.loaded();
 				}
 			} catch (error) {
-				console.log(error);
+				Swal.fire({
+					position: 'center',
+					icon: 'warning',
+					width: 400,
+					text: error.message,
+					showConfirmButton: false,
+					timer: 3000,
+				});
 			}
 		},
 		register() {

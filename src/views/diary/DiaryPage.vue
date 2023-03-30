@@ -89,7 +89,14 @@ export default {
 				await this.DIARY(this.diaryId);
 				this.diary = this.GET_DIARY;
 			} catch (error) {
-				console.log(error);
+				Swal.fire({
+					position: 'center',
+					icon: 'warning',
+					width: 400,
+					text: error.message,
+					showConfirmButton: false,
+					timer: 3000,
+				});
 			}
 		},
 		back() {

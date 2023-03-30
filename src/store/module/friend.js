@@ -31,8 +31,7 @@ const actions = {
 		commit('SET_WAITING', res.data);
 	},
 	async APPLY_FRIEND(friendId) {
-		const res = await Friend.applyFriend(friendId);
-		console.log(res.data);
+		await Friend.applyFriend(friendId);
 	},
 };
 
