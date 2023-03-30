@@ -1,8 +1,7 @@
-
 export function setInterceptors(instance) {
 	instance.interceptors.request.use(
 		function (config) {
-			const token = localStorage.getItem("accessToken");
+			const token = localStorage.getItem('accessToken');
 			config.headers.Authorization = `Bearer ${token}`;
 			return config;
 		},
