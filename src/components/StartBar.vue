@@ -30,13 +30,8 @@
 
 </template>
 <script>
-import { mapState } from "vuex"
   export default {
     data: () => ({ value: 'recent' }),
-    computed: {
-    ...mapState(["isSignin"]),
-  
-    },
   }
   
 </script>
