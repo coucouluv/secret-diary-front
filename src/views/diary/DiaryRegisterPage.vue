@@ -109,7 +109,6 @@ export default {
 			}
 		},
 		previewFile(file) {
-			console.log(file);
 			const fileData = data => {
 				this.preview = data;
 			};

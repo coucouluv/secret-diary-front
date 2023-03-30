@@ -20,7 +20,6 @@ const mutations = {
 	},
 	SIGN_OUT() {
 		Index.state.isSignin = false;
-		console.log(Index.state.isSignin);
 		localStorage.setItem('signin', false);
 		localStorage.removeItem('accessToken');
 		localStorage.removeItem('refreshToken');
@@ -32,7 +31,6 @@ const actions = {
 		const tokenData = await Sign.signIn(signInRequest);
 		localStorage.setItem('accessToken', tokenData.data.accessToken);
 		localStorage.setItem('refreshToken', tokenData.data.refreshToken);
-		console.log(localStorage.getItem('accessToken'));
 		commit('SET_SIGN_STATUS', true);
 	},
 	async REGISTER(registerRequest) {
