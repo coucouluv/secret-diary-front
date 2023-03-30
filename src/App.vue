@@ -25,15 +25,10 @@ export default {
 
   },
   created() {
-    this.start()
+  
   },
   methods: {
-    start() {
-      // const sign = localStorage.getItem('signin') 
-      if(this.isSignin == true) { //여기 null일 때 문제가 잇나?
-        this.$router.push({ name: "friend" })
-      }
-    }
+
   }
 };
 </script>
