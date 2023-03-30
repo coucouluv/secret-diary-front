@@ -78,7 +78,6 @@ export default {
 				await this.SIGN_IN(this.signInRequest);
 				this.$router.push({ name: 'friend' });
 			} catch (error) {
-				console.log(error);
 				Swal.fire({
 					position: 'center',
 					icon: 'warning',

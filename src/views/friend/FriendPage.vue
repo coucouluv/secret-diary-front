@@ -102,7 +102,6 @@ export default {
 				await this.GET_FRIENDS(this.request);
 				this.friends = this.friends.concat(this.FRIEND_LIST.friends);
 				this.request.page++;
-				console.log('넥스트 값: ', this.FRIEND_LIST.hasNext);
 				if (!this.FRIEND_LIST.hasNext) {
 					this.hasNext = false;
 					$state.complete();
@@ -110,7 +109,14 @@ export default {
 					$state.loaded();
 				}
 			} catch (error) {
-				console.log(error);
+				Swal.fire({
+					position: 'center',
+					icon: 'warning',
+					width: 400,
+					text: error.message,
+					showConfirmButton: false,
+					timer: 3000,
+				});
 			}
 		},
 		async applyFriend() {
@@ -127,7 +133,6 @@ export default {
 				});
 				this.friendId = '';
 			} catch (error) {
-				console.log(error);
 				Swal.fire({
 					position: 'center',
 					icon: 'warning',
@@ -139,7 +144,6 @@ export default {
 			}
 		},
 		diary(userId) {
-			console.log(userId);
 			this.$router.push({ name: 'diaries', query: { id: userId } });
 		},
 	},

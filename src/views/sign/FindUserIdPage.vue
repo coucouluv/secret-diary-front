@@ -77,7 +77,6 @@ export default {
 				});
 				this.$router.push({ name: 'signin' });
 			} catch (error) {
-				console.log(error);
 				Swal.fire({
 					position: 'center',
 					icon: 'warning',
