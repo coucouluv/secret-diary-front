@@ -6,7 +6,7 @@
             max-width="1000"
             min-height="400"
         >
-            <diary-system-bar/>
+            <system-bar/>
             <v-app-bar
                 color="white"
                 dense
@@ -46,13 +46,13 @@
     </v-app>
 </template>
 <script>
-import DiarySystemBar from '@/components/DiarySystemBar.vue';
+import SystemBar from '@/components/SystemBar.vue';
 import { mapActions, mapGetters } from 'vuex';
 import InfiniteLoading from 'vue-infinite-loading';
 
 export default {
     components: {
-        DiarySystemBar,
+        SystemBar,
         InfiniteLoading
     },
     data: () => ({
@@ -70,6 +70,7 @@ export default {
     },
     created() {
         this.request.friendId = this.$route.query.id
+        console.log("다이어리 목록 친구 아이디: ", this.request.friendId)
     },
     methods: {
         ...mapActions(["DIARIES"]),
@@ -92,24 +93,12 @@ export default {
             this.$router.push({name: 'diaryRegister', query: {id: this.request.friendId}})
         },
         show(diaryId, url, event) {
-            this.$router.push({name: 'diary', query: {id: this.request.friendId, diary: diaryId, url: url}})
+            this.$router.push({name: 'diary', query: {id: this.request.friendId, diary: diaryId},params: {url: url}})
         }
     }
 }
 </script>
 
-<style scoped>
-.bar{
-    margin-top: 1rem;
-}
-
-.btn{
-    font-weight: bold;
-}
-.title{
-    padding-bottom: 1rem !important;
-    font-size: 10rem;
-    color: darkgrey;
-    font-weight: bold;
-}
+<style lang="scss" scoped>
+@import './scss/Diary.scss';
 </style>

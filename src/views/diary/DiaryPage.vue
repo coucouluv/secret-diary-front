@@ -6,7 +6,7 @@
             max-width="1000"
             min-height="400"
         >
-            <diary-system-bar/>
+            <system-bar/>
             <v-app-bar
                 color="white"
                 dense
@@ -42,12 +42,12 @@
 </template>
 
 <script>
-import DiarySystemBar from '@/components/DiarySystemBar.vue'
+import SystemBar from '@/components/SystemBar.vue'
 import { mapActions, mapGetters } from 'vuex';
 import Swal from 'sweetalert2';
 export default {
     components: {
-        DiarySystemBar,
+        SystemBar,
     },
     data: () => ({
         diary: {
@@ -62,7 +62,7 @@ export default {
     created() {
         this.friendId = this.$route.query.id
         this.diaryId = this.$route.query.diary
-        this.presignedUrl = this.$route.query.url
+        this.presignedUrl = this.$route.params.url
         this.initdiary()
     },
     methods: {
@@ -108,19 +108,20 @@ export default {
                 await this.DELETE_DIARY(this.diaryId)
                 this.back()
             } catch(error) {
-                //여기서 친구가 작성한 다이어리는 삭제 못함
-                console.log(error)
+                Swal.fire({
+                    position: 'center',
+                    icon: 'warning',
+                    width: 400,
+                    text: error.response.data.message,
+                    showConfirmButton: false,
+                    timer: 1500,
+			    })
             }
         }
     }
 }
 </script>
 
-<style scoped>
-.bar{
-    margin-top: 1rem;
-}
-.img{
-    margin-bottom: 1rem;
-}
+<style lang="scss" scoped>
+@import './scss/Diary.scss';
 </style>
