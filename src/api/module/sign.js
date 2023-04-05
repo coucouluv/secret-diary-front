@@ -1,6 +1,6 @@
 import { instance } from '@/api/index';
 
-const BASE_URL = 'api/start';
+const BASE_URL = '/api/start';
 
 const Sign = {
   signIn(signInrequest) {
