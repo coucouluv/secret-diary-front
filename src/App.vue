@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <start-bar v-if="!isSignin"></start-bar>
+    <start-bar v-if="!checkSign()"></start-bar>
     <header-nav v-else></header-nav>
     <router-view />
   </v-app>
@@ -8,8 +8,6 @@
 <script>
 import StartBar from '@/components/StartBar.vue';
 import HeaderNav from '@/components/HeaderNav.vue';
-import { mapState } from 'vuex';
-
 export default {
   name: 'App',
 
@@ -18,10 +16,14 @@ export default {
     HeaderNav,
   },
   data: () => ({}),
-  computed: {
-    ...mapState(['isSignin']),
+  computed: {},
+  methods: {
+    checkSign() {
+      if (localStorage.getItem('signin')) {
+        return true;
+      }
+      return false;
+    },
   },
-  created() {},
-  methods: {},
 };
 </script>
