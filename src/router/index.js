@@ -7,6 +7,18 @@ const routes = [
     path: '/',
     name: 'start',
     component: () => import('@/views/MainHomePage.vue'),
+    beforeEnter(to, from, next) {
+      if (localStorage.getItem('accessToken')) {
+        next({ name: 'friend' });
+      } else {
+        next();
+      }
+    },
+  },
+  {
+    path: '/friend',
+    name: 'friend',
+    component: () => import('@/views/friend/FriendPage.vue'),
   },
   {
     path: '/register',
@@ -27,11 +39,6 @@ const routes = [
     path: '/signin/findpassword',
     name: 'findpassword',
     component: () => import('@/views/sign/FindPasswordPage.vue'),
-  },
-  {
-    path: '/friend',
-    name: 'friend',
-    component: () => import('@/views/friend/FriendPage.vue'),
   },
   {
     path: '/waiting',
