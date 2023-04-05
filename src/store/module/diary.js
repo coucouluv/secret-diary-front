@@ -40,10 +40,10 @@ const actions = {
     const res = await Diary.saveDiary(diaryRequest);
     commit('SET_DIARYID', res.data);
   },
-  async DELETE_DIARY(diaryId) {
+  async DELETE_DIARY(context, diaryId) {
     await Diary.deleteDiary(diaryId);
   },
-  async UPDATE_DIARY(diaryRequest) {
+  async UPDATE_DIARY(context, diaryRequest) {
     await Diary.updateDiary(diaryRequest);
   },
 };
