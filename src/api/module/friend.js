@@ -16,6 +16,12 @@ const friend = {
   applyFriend(friendId) {
     return instanceWithToken.post(`${BASE_URL}/apply/${friendId}`);
   },
+  acceptFriend(friendId) {
+    return instanceWithToken.post(`${BASE_URL}/accept/${friendId}`);
+  },
+  denyFriend(friendId) {
+    return instanceWithToken.post(`${BASE_URL}/deny/${friendId}`);
+  },
 };
 
 export default friend;
