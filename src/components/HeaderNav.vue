@@ -2,13 +2,15 @@
   <div>
     <v-card class="brown lighten-5">
       <v-card-title class="text-center justify-center py-6">
-        <v-img
-          class="mx-2"
-          src="@/assets/logo2.png"
-          max-height="150"
-          max-width="150"
-          contain
-        ></v-img>
+        <router-link to="/">
+          <v-img
+            class="mx-2"
+            src="@/assets/logo2.png"
+            max-height="150"
+            max-width="150"
+            contain
+          ></v-img>
+        </router-link>
       </v-card-title>
     </v-card>
     <v-tabs

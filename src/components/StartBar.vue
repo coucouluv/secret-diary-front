@@ -1,14 +1,15 @@
 <template>
   <div>
     <v-app-bar dense class="brown lighten-4">
-      <v-img
-        class="mx-2"
-        src="@/assets/full-heart.png"
-        max-height="60"
-        max-width="60"
-        contain
-      ></v-img>
-
+      <router-link to="/">
+        <v-img
+          class="mx-2"
+          src="@/assets/full-heart.png"
+          max-height="60"
+          max-width="60"
+          contain
+        ></v-img>
+      </router-link>
       <v-spacer></v-spacer>
       <v-btn text color="white" class="btn" router-link to="/register">
         회원가입
