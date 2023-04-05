@@ -137,7 +137,7 @@ export default {
           position: 'center',
           icon: 'warning',
           width: 400,
-          text: error.message,
+          text: error.response.data.message,
           showConfirmButton: false,
           timer: 3000,
         });

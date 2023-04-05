@@ -1,5 +1,5 @@
 <template>
-  <v-main class="brown lighten-4">
+  <v-app class="brown lighten-4">
     <v-container style="max-width: 450px" fill-height>
       <v-layout align-center row wrap>
         <v-flex xs12>
@@ -46,14 +46,14 @@
         </v-flex>
       </v-layout>
     </v-container>
-  </v-main>
+  </v-app>
 </template>
 
 <script>
 import Swal from 'sweetalert2';
 import { mapActions } from 'vuex';
-
 export default {
+  components: {},
   data: () => ({
     signInRequest: {
       userId: '',
