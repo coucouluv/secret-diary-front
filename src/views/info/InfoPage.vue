@@ -46,6 +46,7 @@
 <script>
 import ProfileDialog from '@/components/ProfileDialog.vue';
 import PwdDialog from '@/components/PasswordDialog.vue';
+import Swal from 'sweetalert2';
 import { mapActions, mapGetters } from 'vuex';
 export default {
   components: {
@@ -80,11 +81,17 @@ export default {
     },
     async submitPwd(pwdRequest) {
       try {
-        console.log('변경할 비밀번호: ', pwdRequest.password);
         await this.UPDATE_PWD(pwdRequest);
         this.hidePwd();
       } catch (error) {
-        console.log('비밀번호 변경 실패');
+        Swal.fire({
+          position: 'center',
+          icon: 'warning',
+          width: 400,
+          text: error.message,
+          showConfirmButton: false,
+          timer: 3000,
+        });
       }
     },
     async submitProfile(profileRequest) {
@@ -100,7 +107,14 @@ export default {
         request.url = this.GET_URL;
         await this.UPDATE_PROFILE(request);
       } catch (error) {
-        console.log('프로필 변경 실패');
+        Swal.fire({
+          position: 'center',
+          icon: 'warning',
+          width: 400,
+          text: error.message,
+          showConfirmButton: false,
+          timer: 3000,
+        });
       }
     },
     async showInfo() {
@@ -108,7 +122,14 @@ export default {
         await this.GET_MEMBER();
         this.member = this.MEMBER;
       } catch (error) {
-        console.log('내 정보 가져오기 실패');
+        Swal.fire({
+          position: 'center',
+          icon: 'warning',
+          width: 400,
+          text: error.message,
+          showConfirmButton: false,
+          timer: 3000,
+        });
       }
     },
   },

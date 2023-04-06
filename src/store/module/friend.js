@@ -30,8 +30,11 @@ const actions = {
     const res = await Friend.getWaitingFriends(request);
     commit('SET_WAITING', res.data);
   },
-  async APPLY_FRIEND(friendId) {
+  async APPLY_FRIEND(context, friendId) {
     await Friend.applyFriend(friendId);
+  },
+  async ACCEPT_FRIEND(context, friendId) {
+    await Friend.acceptFriend(friendId);
   },
 };
 

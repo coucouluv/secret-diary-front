@@ -20,7 +20,7 @@ const mutations = {
   },
   SIGN_OUT() {
     Index.state.isSignin = false;
-    localStorage.setItem('signin', false);
+    localStorage.removeItem('signin');
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     router.push({ name: 'start' });
@@ -33,10 +33,10 @@ const actions = {
     localStorage.setItem('refreshToken', tokenData.data.refreshToken);
     commit('SET_SIGN_STATUS', true);
   },
-  async REGISTER(registerRequest) {
+  async REGISTER(context, registerRequest) {
     await Sign.register(registerRequest);
   },
-  async PASSWORD(passwordRequset) {
+  async PASSWORD(context, passwordRequset) {
     await Sign.findPassword(passwordRequset);
   },
   async USERID({ commit }, email) {
