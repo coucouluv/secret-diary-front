@@ -1,22 +1,10 @@
-import { instance } from '@/api/index';
+import { instanceOfImage } from '@/api/index';
 
-const BASE_URL = '/api/image';
+const BASE_URL = '/api/images';
 
 const image = {
-  upload() {
-    const token = localStorage.getItem('accessToken');
-    instance.defaults.headers.Authorization = 'Bearer ' + token;
-    return instance.get(`${BASE_URL}/upload`);
-  },
-  share(url) {
-    const token = localStorage.getItem('accessToken');
-    instance.defaults.headers.Authorization = 'Bearer ' + token;
-    return instance.get(`${BASE_URL}/share/${url}`);
-  },
-  delete(url) {
-    const token = localStorage.getItem('accessToken');
-    instance.defaults.headers.Authorization = 'Bearer ' + token;
-    return instance.get(`${BASE_URL}/delete/${url}`);
+  upload(formData) {
+    return instanceOfImage.post(`${BASE_URL}`, formData);
   },
 };
 
