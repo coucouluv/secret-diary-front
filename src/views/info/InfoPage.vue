@@ -1,7 +1,11 @@
 <template>
   <v-app class="brown lighten-5">
     <v-card class="mx-auto my-12" max-width="600px" max-height="800px">
-      <v-img v-if="member.url" height="350" :src="member.url"></v-img>
+      <v-img
+        v-if="member.image"
+        height="350"
+        :src="`http://3.34.235.131/images/${member.image}`"
+      ></v-img>
       <v-img v-else height="350" src="@/assets/bear2.png"></v-img>
       <v-card-title class="justify-center">{{ member.name }}</v-card-title>
       <v-card-text>
@@ -59,20 +63,13 @@ export default {
     member: {},
   }),
   computed: {
-    ...mapGetters(['MEMBER', 'GET_URL', 'GET_PRESIGNED']),
+    ...mapGetters(['MEMBER', 'GET_URL']),
   },
   created() {
     this.showInfo();
   },
   methods: {
-    ...mapActions([
-      'UPLOAD',
-      'SHARE',
-      'UPLOAD_S3',
-      'UPDATE_PWD',
-      'GET_MEMBER',
-      'UPDATE_PROFILE',
-    ]),
+    ...mapActions(['UPLOAD', 'UPDATE_PWD', 'GET_MEMBER', 'UPDATE_PROFILE']),
     hidePwd() {
       this.password = false;
     },
@@ -97,21 +94,24 @@ export default {
     async submitProfile(profileRequest) {
       try {
         const request = {
-          url: '',
+          image: '',
           statusMessage: profileRequest.statusMessage,
         };
-        await this.UPLOAD();
-        await this.$axios.put(this.GET_PRESIGNED, profileRequest.url, {
-          headers: { 'Content-Type': `image/jpeg` },
-        });
-        request.url = this.GET_URL;
+        if (profileRequest.image.name) {
+          const formData = new FormData();
+          formData.append('file', profileRequest.image);
+          await this.UPLOAD(formData);
+          request.image = this.GET_URL;
+        }
         await this.UPDATE_PROFILE(request);
+        this.hideProfile();
+        this.showInfo();
       } catch (error) {
         Swal.fire({
           position: 'center',
           icon: 'warning',
           width: 400,
-          text: error.message,
+          text: error.response.data.message,
           showConfirmButton: false,
           timer: 3000,
         });

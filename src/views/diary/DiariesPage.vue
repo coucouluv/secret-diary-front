@@ -27,9 +27,9 @@
       <v-container fluid>
         <v-row dense>
           <v-col v-for="card in diaries" :key="card.title" :cols="4">
-            <v-card @click="show(card.diaryId, card.url, $event)">
+            <v-card @click="show(card.diaryId, $event)">
               <v-img
-                :src="card.url"
+                :src="`http://3.34.235.131/images/${card.image}`"
                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                 height="200px"
               >
@@ -105,11 +105,10 @@ export default {
         query: { id: this.request.friendId },
       });
     },
-    show(diaryId, url) {
+    show(diaryId) {
       this.$router.push({
         name: 'diary',
         query: { id: this.request.friendId, diary: diaryId },
-        params: { url: url },
       });
     },
   },

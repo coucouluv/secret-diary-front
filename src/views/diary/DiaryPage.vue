@@ -42,12 +42,7 @@
           </div>
         </v-row>
         <v-row dense class="img">
-          <v-img
-            v-if="presignedUrl"
-            height="400"
-            width="250"
-            :src="presignedUrl"
-          ></v-img>
+          <v-img v-if="image" height="400" width="250" :src="image"></v-img>
         </v-row>
         <v-row dense>
           <div>
@@ -71,23 +66,23 @@ export default {
     diary: {},
     diaryId: '',
     friendId: '',
-    presignedUrl: '',
+    image: '',
   }),
   computed: {
-    ...mapGetters(['GET_DIARY', 'GET_PRESIGNED']),
+    ...mapGetters(['GET_DIARY']),
   },
   created() {
     this.friendId = this.$route.query.id;
     this.diaryId = this.$route.query.diary;
-    this.presignedUrl = this.$route.params.url;
     this.initdiary();
   },
   methods: {
-    ...mapActions(['DIARY', 'DELETE_DIARY', 'DELETE']),
+    ...mapActions(['DIARY', 'DELETE_DIARY']),
     async initdiary() {
       try {
         await this.DIARY(this.diaryId);
         this.diary = this.GET_DIARY;
+        this.image = process.env.VUE_APP_IMAGE_URL + this.diary.image;
       } catch (error) {
         Swal.fire({
           position: 'center',
@@ -130,10 +125,6 @@ export default {
     },
     async deleteDiary() {
       try {
-        await this.DELETE(this.diary.url);
-        const deleteUrl = this.GET_PRESIGNED;
-        this.$axios.delete(deleteUrl);
-
         await this.DELETE_DIARY(this.diaryId);
         this.back();
       } catch (error) {

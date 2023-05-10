@@ -29,7 +29,10 @@
             ></v-divider>
             <v-list-item :key="item.name">
               <v-list-item-avatar>
-                <v-img v-if="item.url != null" :src="item.url"></v-img>
+                <v-img
+                  v-if="item.image != null"
+                  :src="`http://3.34.235.131/images/${item.image}`"
+                ></v-img>
                 <v-img v-else src="@/assets/bear2.png"></v-img>
               </v-list-item-avatar>
 
@@ -45,7 +48,7 @@
                   rounded
                   color="brown lighten-4"
                   dark
-                  @click="diary(item.userId, $event)"
+                  @click="diary(item.id, $event)"
                 >
                   일기장
                   <v-img
@@ -143,8 +146,8 @@ export default {
         });
       }
     },
-    diary(userId) {
-      this.$router.push({ name: 'diaries', query: { id: userId } });
+    diary(id) {
+      this.$router.push({ name: 'diaries', query: { id: id } });
     },
   },
 };

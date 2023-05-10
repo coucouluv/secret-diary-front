@@ -9,10 +9,10 @@
       <v-file-input
         class="input"
         type="file"
-        v-model="profile.url"
+        v-model="profile.image"
         show-size
         label="프로필 사진 입력"
-        @change="previewFile(profile.url)"
+        @change="previewFile(profile.image)"
       ></v-file-input>
       <v-text-field
         placeholder="상태 메세지를 입력하세요"
@@ -32,16 +32,13 @@
 export default {
   data: () => ({
     profile: {
-      url: '',
+      image: '',
       statusMessage: '',
     },
     preview: '',
     isError: false,
     errorMsg: '',
   }),
-  created() {
-    this.clear();
-  },
   methods: {
     previewFile(file) {
       const fileData = data => {
@@ -58,25 +55,14 @@ export default {
       );
     },
     submit() {
-      if (this.profile.url.name) {
-        if (
-          this.profile.url.size >= 2000000 ||
-          this.profile.url.type !== 'image/jpeg'
-        ) {
-          this.isError = true;
-          this.errorMsg = '이미지는 2MB 이하의 jpg 형식입니다.';
-          return;
-        }
-      }
       this.$emit('submitProfile', this.profile);
-      this.clear();
     },
     hide() {
       this.$emit('hideProfile');
       this.clear();
     },
     clear() {
-      this.profile.url = '';
+      this.profile.image = '';
       this.profile.statusMessage = '';
       this.preview = '';
       this.isError = false;
