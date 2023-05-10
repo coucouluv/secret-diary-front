@@ -55,7 +55,6 @@
         <v-row dense>
           <v-file-input
             class="input"
-            accept="image/jpeg"
             type="file"
             v-model="url"
             show-size
@@ -78,10 +77,10 @@ export default {
   },
   data: () => ({
     diary: {
-      friendUserId: '',
+      id: '',
       title: '',
       text: '',
-      url: '',
+      image: '',
     },
     preview: '',
     url: {},
@@ -89,20 +88,14 @@ export default {
     errorMsg: '',
   }),
   computed: {
-    ...mapGetters(['GET_URL', 'GET_PRESIGNED']),
+    ...mapGetters(['GET_URL']),
   },
   created() {
     this.initDiary();
-    this.diary.friendUserId = this.$route.query.id;
+    this.diary.id = this.$route.query.id;
   },
   methods: {
-    ...mapActions([
-      'UPLOAD',
-      'SHARE',
-      'UPLOAD_S3',
-      'SAVE_DIARY',
-      'UPDATE_DIARY',
-    ]),
+    ...mapActions(['UPLOAD', 'SAVE_DIARY', 'UPDATE_DIARY']),
     initDiary() {
       if (this.$route.params.diary) {
         this.diary = this.$route.params.diary;
@@ -130,29 +123,17 @@ export default {
           return;
         }
         if (this.url.name) {
-          if (this.url.size >= 2000000 || this.url.type !== 'image/jpeg') {
-            Swal.fire({
-              position: 'center',
-              icon: 'warning',
-              width: 400,
-              text: '이미지는 2MB 이하의 jpg 형식입니다.',
-              showConfirmButton: false,
-              timer: 3000,
-            });
-            return;
-          }
-          await this.UPLOAD();
-          await this.$axios.put(this.GET_PRESIGNED, this.url, {
-            headers: { 'Content-Type': `image/jpeg` },
-          });
-          this.diary.url = this.GET_URL;
+          const formData = new FormData();
+          formData.append('file', this.url);
+          await this.UPLOAD(formData);
+          this.diary.image = this.GET_URL;
         }
         if (this.diary.diaryId) {
           const request = {
             diaryId: this.diary.diaryId,
             title: this.diary.title,
             text: this.diary.text,
-            url: this.diary.url,
+            image: this.diary.image,
           };
           await this.UPDATE_DIARY(request);
         } else {
@@ -168,7 +149,7 @@ export default {
         });
         this.$router.push({
           name: 'diaries',
-          query: { id: this.diary.friendUserId },
+          query: { id: this.diary.id },
         });
       } catch (error) {
         Swal.fire({
@@ -184,7 +165,7 @@ export default {
     cancel() {
       this.$router.push({
         name: 'diaries',
-        query: { id: this.diary.friendUserId },
+        query: { id: this.diary.id },
       });
     },
   },
