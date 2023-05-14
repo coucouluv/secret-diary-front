@@ -32,6 +32,7 @@
                 :src="`http://3.34.235.131/images/${card.image}`"
                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                 height="200px"
+                loading="lazy"
               >
               </v-img>
               <v-card-subtitle class="pb-3">
@@ -54,7 +55,7 @@
 import SystemBar from '@/components/SystemBar.vue';
 import { mapActions, mapGetters } from 'vuex';
 import InfiniteLoading from 'vue-infinite-loading';
-import Swal from 'sweetalert2';
+import { failToast } from '@/utils/toast.js';
 export default {
   components: {
     SystemBar,
@@ -89,14 +90,7 @@ export default {
           $state.loaded();
         }
       } catch (error) {
-        Swal.fire({
-          position: 'center',
-          icon: 'warning',
-          width: 400,
-          text: error.message,
-          showConfirmButton: false,
-          timer: 3000,
-        });
+        failToast(error.response.data.message);
       }
     },
     register() {

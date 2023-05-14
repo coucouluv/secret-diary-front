@@ -1,5 +1,5 @@
 <template>
-  <v-main class="brown lighten-4">
+  <v-app class="brown lighten-4">
     <v-container style="max-width: 450px" fill-height>
       <v-layout align-center row wrap>
         <v-flex xs12>
@@ -14,6 +14,7 @@
                 <v-text-field
                   v-model="email"
                   label="이메일"
+                  :rules="emailRules"
                   required
                 ></v-text-field>
                 <v-btn
@@ -33,17 +34,20 @@
         </v-flex>
       </v-layout>
     </v-container>
-  </v-main>
+  </v-app>
 </template>
 
 <script>
 import Swal from 'sweetalert2';
 import { mapActions, mapGetters } from 'vuex';
+import validator from '@/utils/validator.js';
+
 export default {
   data: () => ({
     email: '',
     isError: false,
     errorMsg: '',
+    emailRules: validator.register.email,
   }),
 
   computed: {
@@ -54,11 +58,6 @@ export default {
     ...mapActions(['USERID']),
     async findUserId() {
       try {
-        if (!this.email) {
-          this.isError = true;
-          this.errorMsg = '이메일을 입력하세요.';
-          return;
-        }
         const params = {
           email: this.email,
         };
@@ -73,21 +72,11 @@ export default {
           text: '아이디는 ' + id + ' 입니다.',
           showConfirmButton: true,
           confirmButtonColor: '#c6b3a6',
-          // timer: 1500,
         });
         this.$router.push({ name: 'signin' });
       } catch (error) {
-        Swal.fire({
-          position: 'center',
-          icon: 'warning',
-          width: 400,
-          title:
-            '<div style="font-size: 18px; font-family: "Spoqa Han Sans Neo", "sans-serif"; ">아이디 찾기 실패<div>',
-          text: '해당 이메일을 가진 회원은 존재하지 않습니다.',
-          showConfirmButton: false,
-          timer: 3000,
-        });
-        this.clear();
+        this.isError = true;
+        this.errorMsg = error.response.data.message;
       }
     },
     clear() {

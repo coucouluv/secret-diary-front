@@ -52,11 +52,10 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2';
 import { mapActions, mapGetters } from 'vuex';
 import SystemBar from '@/components/SystemBar.vue';
 import InfiniteLoading from 'vue-infinite-loading';
-
+import { successToast, failToast } from '@/utils/toast.js';
 export default {
   components: {
     SystemBar,
@@ -90,61 +89,15 @@ export default {
           $state.loaded();
         }
       } catch (error) {
-        Swal.fire({
-          position: 'center',
-          icon: 'warning',
-          width: 400,
-          text: error.message,
-          showConfirmButton: false,
-          timer: 3000,
-        });
-      }
-    },
-    async applyFriend() {
-      try {
-        await this.APPLY_FRIEND(this.friendId);
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          width: 400,
-          title:
-            '<div style="font-size: 18px; font-family: "Spoqa Han Sans Neo", "sans-serif"; ">친구 신청이 완료되었습니다.<div>',
-          showConfirmButton: false,
-          timer: 3000,
-        });
-        this.friendId = '';
-      } catch (error) {
-        Swal.fire({
-          position: 'center',
-          icon: 'warning',
-          width: 400,
-          text: error.message,
-          showConfirmButton: false,
-          timer: 3000,
-        });
+        failToast(error.response.data.message);
       }
     },
     async acceptFriend(friendId) {
       try {
         await this.ACCEPT_FRIEND(friendId);
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          width: 400,
-          title:
-            '<div style="font-size: 18px; font-family: "Spoqa Han Sans Neo", "sans-serif"; ">친구가 되었습니다.\n 친구와 함께 일기를 작성해보세요!<div>',
-          showConfirmButton: false,
-          timer: 3000,
-        });
+        successToast('친구가 되었습니다!');
       } catch (error) {
-        Swal.fire({
-          position: 'center',
-          icon: 'warning',
-          width: 400,
-          text: error.message,
-          showConfirmButton: false,
-          timer: 3000,
-        });
+        failToast(error.response.data.message);
       }
     },
   },

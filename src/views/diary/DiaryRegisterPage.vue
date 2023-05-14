@@ -34,6 +34,7 @@
             v-model="diary.title"
             maxlength="50"
             label="제목을 입력하세요."
+            :rules="titleRules"
           ></v-text-field>
         </v-row>
         <v-row dense class="img">
@@ -50,6 +51,7 @@
             shaped
             v-model="diary.text"
             label="내용을 입력하세요."
+            :rules="textRules"
           ></v-textarea>
         </v-row>
         <v-row dense>
@@ -70,7 +72,8 @@
 <script>
 import SystemBar from '@/components/SystemBar.vue';
 import { mapActions, mapGetters } from 'vuex';
-import Swal from 'sweetalert2';
+import validator from '@/utils/validator.js';
+import { successToast, failToast } from '@/utils/toast.js';
 export default {
   components: {
     SystemBar,
@@ -86,6 +89,8 @@ export default {
     url: {},
     isError: false,
     errorMsg: '',
+    titleRules: validator.diary.title,
+    textRules: validator.diary.text,
   }),
   computed: {
     ...mapGetters(['GET_URL']),
@@ -117,11 +122,6 @@ export default {
     },
     async save() {
       try {
-        if (!this.diary.text || !this.diary.title) {
-          this.isError = true;
-          this.errorMsg = '제목과 내용은 필수입니다.';
-          return;
-        }
         if (this.url.name) {
           const formData = new FormData();
           formData.append('file', this.url);
@@ -139,27 +139,13 @@ export default {
         } else {
           await this.SAVE_DIARY(this.diary);
         }
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          width: 400,
-          text: '다이어리 저장 완료!',
-          showConfirmButton: false,
-          timer: 1500,
-        });
+        successToast('다이어리 등록 완료!');
         this.$router.push({
           name: 'diaries',
           query: { id: this.diary.id },
         });
       } catch (error) {
-        Swal.fire({
-          position: 'center',
-          icon: 'warning',
-          width: 400,
-          text: error.response.data.message,
-          showConfirmButton: false,
-          timer: 1500,
-        });
+        failToast(error.response.data.message);
       }
     },
     cancel() {

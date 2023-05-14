@@ -63,9 +63,6 @@
           contain
         ></v-img>
       </v-tab>
-      <!-- <v-tab-item>
-        <router-view></router-view>
-      </v-tab-item> -->
     </v-tabs>
   </div>
 </template>

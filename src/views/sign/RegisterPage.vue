@@ -56,9 +56,9 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2';
 import { mapActions } from 'vuex';
-
+import validator from '@/utils/validator.js';
+import { successToast, failToast } from '@/utils/toast.js';
 export default {
   data: () => ({
     member: {
@@ -67,28 +67,10 @@ export default {
       email: '',
       password: '',
     },
-    userIdRules: [
-      v => !!v || '아이디를 입력하세요.',
-      v =>
-        /^[a-zA-Z\d_].{4,15}$/.test(v) ||
-        '아이디는 4~15자의 영어,숫자,"_"로 입력하세요.',
-    ],
-    nameRules: [
-      v => !!v || '이름을 입력하세요.',
-      v =>
-        /^[가-힣a-zA-Z].{2,15}$/.test(v) ||
-        '이름은 2~15자의 영어 혹은 한글을 입력하세요.',
-    ],
-    emailRules: [
-      v => !!v || '이메일을 입력하세요.',
-      v => /.+@.+\..+/.test(v) || '이메일 형식에 맞게 입력하세요.',
-    ],
-    passwordRules: [
-      v => !!v || '비밀번호를 입력하세요.',
-      v =>
-        /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d].{8,}$/.test(v) ||
-        '최소 하나의 숫자, 영어를 포함하는 8자 이상의 비밀번호를 입력하세요.',
-    ],
+    userIdRules: validator.register.userId,
+    nameRules: validator.register.name,
+    emailRules: validator.register.email,
+    passwordRules: validator.register.password,
     passwordShow: false,
   }),
 
@@ -99,27 +81,10 @@ export default {
     async register() {
       try {
         await this.REGISTER(this.member);
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          width: 350,
-          title:
-            '<div style="font-size: 18px; font-family: "Spoqa Han Sans Neo", "sans-serif"; ">회원가입 완료<div>',
-          showConfirmButton: false,
-          timer: 1500,
-        });
+        successToast('회원가입 완료!');
         this.$router.push({ name: 'signin' });
       } catch (error) {
-        Swal.fire({
-          position: 'center',
-          icon: 'warning',
-          width: 350,
-          title:
-            '<div style="font-size: 18px; font-family: "Spoqa Han Sans Neo", "sans-serif"; ">회원가입 실패<div>',
-          text: error.response.data.message,
-          showConfirmButton: false,
-          timer: 1500,
-        });
+        failToast('회원가입 실패');
       }
     },
     clear() {

@@ -32,8 +32,8 @@
     </v-card-actions>
   </v-card>
 </template>
-
 <script>
+import validator from '@/utils/validator.js';
 export default {
   name: 'PasswordDialog',
   data: () => ({
@@ -42,12 +42,7 @@ export default {
       changePassword: '',
     },
     passwordShow: false,
-    passwordRules: [
-      v => !!v || '비밀번호를 입력하세요.',
-      v =>
-        /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d].{8,}$/.test(v) ||
-        '최소 하나의 숫자, 영어를 포함하는 8자 이상의 비밀번호를 입력하세요.',
-    ],
+    passwordRules: validator.register.password,
   }),
   props: {
     footerSubmit: {
