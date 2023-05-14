@@ -58,6 +58,7 @@
 import SystemBar from '@/components/SystemBar.vue';
 import { mapActions, mapGetters } from 'vuex';
 import Swal from 'sweetalert2';
+import { failToast } from '@/utils/toast.js';
 export default {
   components: {
     SystemBar,
@@ -84,14 +85,7 @@ export default {
         this.diary = this.GET_DIARY;
         this.image = process.env.VUE_APP_IMAGE_URL + this.diary.image;
       } catch (error) {
-        Swal.fire({
-          position: 'center',
-          icon: 'warning',
-          width: 400,
-          text: error.message,
-          showConfirmButton: false,
-          timer: 3000,
-        });
+        failToast(error.response.data.message);
       }
     },
     back() {
@@ -128,14 +122,7 @@ export default {
         await this.DELETE_DIARY(this.diaryId);
         this.back();
       } catch (error) {
-        Swal.fire({
-          position: 'center',
-          icon: 'warning',
-          width: 400,
-          text: error.response.data.message,
-          showConfirmButton: false,
-          timer: 1500,
-        });
+        failToast(error.response.data.message);
       }
     },
   },

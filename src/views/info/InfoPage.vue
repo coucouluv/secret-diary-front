@@ -50,8 +50,8 @@
 <script>
 import ProfileDialog from '@/components/ProfileDialog.vue';
 import PwdDialog from '@/components/PasswordDialog.vue';
-import Swal from 'sweetalert2';
 import { mapActions, mapGetters } from 'vuex';
+import { successToast, failToast } from '@/utils/toast.js';
 export default {
   components: {
     ProfileDialog,
@@ -80,15 +80,9 @@ export default {
       try {
         await this.UPDATE_PWD(pwdRequest);
         this.hidePwd();
+        successToast('비밀번호 변경 완료!');
       } catch (error) {
-        Swal.fire({
-          position: 'center',
-          icon: 'warning',
-          width: 400,
-          text: error.message,
-          showConfirmButton: false,
-          timer: 3000,
-        });
+        failToast(error.response.data.message);
       }
     },
     async submitProfile(profileRequest) {
@@ -105,16 +99,10 @@ export default {
         }
         await this.UPDATE_PROFILE(request);
         this.hideProfile();
+        successToast('프로필 변경 완료!');
         this.showInfo();
       } catch (error) {
-        Swal.fire({
-          position: 'center',
-          icon: 'warning',
-          width: 400,
-          text: error.response.data.message,
-          showConfirmButton: false,
-          timer: 3000,
-        });
+        failToast(error.response.data.message);
       }
     },
     async showInfo() {
@@ -122,14 +110,7 @@ export default {
         await this.GET_MEMBER();
         this.member = this.MEMBER;
       } catch (error) {
-        Swal.fire({
-          position: 'center',
-          icon: 'warning',
-          width: 400,
-          text: error.message,
-          showConfirmButton: false,
-          timer: 3000,
-        });
+        failToast(error.response.data.message);
       }
     },
   },
