@@ -1,5 +1,5 @@
 <template>
-  <v-main class="brown lighten-4">
+  <v-app class="brown lighten-4">
     <v-container style="max-width: 450px" fill-height>
       <v-layout align-center row wrap>
         <v-flex xs12>
@@ -14,11 +14,13 @@
                 <v-text-field
                   v-model="passwordRequset.userId"
                   label="아이디"
+                  :rules="userIdRules"
                   required
                 ></v-text-field>
                 <v-text-field
                   v-model="passwordRequset.email"
                   label="이메일"
+                  :rules="emailRules"
                   required
                 ></v-text-field>
                 <v-btn
@@ -38,12 +40,13 @@
         </v-flex>
       </v-layout>
     </v-container>
-  </v-main>
+  </v-app>
 </template>
 
 <script>
 import Swal from 'sweetalert2';
 import { mapActions } from 'vuex';
+import validator from '@/utils/validator.js';
 export default {
   data: () => ({
     passwordRequset: {
@@ -52,17 +55,14 @@ export default {
     },
     isError: false,
     errorMsg: '',
+    userIdRules: validator.register.userId,
+    emailRules: validator.register.email,
   }),
 
   methods: {
     ...mapActions(['PASSWORD']),
     async findPassword() {
       try {
-        if (!this.passwordRequset.userId || !this.passwordRequset.email) {
-          this.isError = true;
-          this.errorMsg = '아이디와 이메일 모두 입력하세요.';
-          return;
-        }
         await this.PASSWORD(this.passwordRequset);
         Swal.fire({
           position: 'center',
@@ -78,17 +78,8 @@ export default {
         });
         this.$router.push({ name: 'signin' });
       } catch (error) {
-        Swal.fire({
-          position: 'center',
-          icon: 'warning',
-          width: 400,
-          title:
-            '<div style="font-size: 18px; font-family: "Spoqa Han Sans Neo", "sans-serif"; ">비밀번호 찾기 실패<div>',
-          text: '아이디 또는 이메일이 올바르지 않습니다. 다시 입력해 주세요.',
-          showConfirmButton: false,
-          timer: 3000,
-        });
-        this.clear();
+        this.isError = true;
+        this.errorMsg = error.response.data.message;
       }
     },
     clear() {

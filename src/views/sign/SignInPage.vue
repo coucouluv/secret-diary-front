@@ -14,6 +14,7 @@
                 <v-text-field
                   v-model="signInRequest.userId"
                   label="아이디"
+                  :rules="userIdRules"
                   required
                 ></v-text-field>
                 <v-text-field
@@ -21,6 +22,7 @@
                   :append-icon="passwordShow ? 'mdi-eye' : 'mdi-eye-off'"
                   :type="passwordShow ? 'text' : 'password'"
                   label="비밀번호"
+                  :rules="passwordRules"
                   required
                   @click:append="passwordShow = !passwordShow"
                 ></v-text-field>
@@ -50,8 +52,8 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2';
 import { mapActions } from 'vuex';
+import validator from '@/utils/validator.js';
 export default {
   components: {},
   data: () => ({
@@ -59,6 +61,8 @@ export default {
       userId: '',
       password: '',
     },
+    userIdRules: validator.sign.userId,
+    passwordRules: validator.sign.password,
     passwordShow: false,
     isError: false,
     errorMsg: '',
@@ -70,24 +74,11 @@ export default {
     ...mapActions(['SIGN_IN']),
     async signin() {
       try {
-        if (!this.signInRequest.userId || !this.signInRequest.password) {
-          this.isError = true;
-          this.errorMsg = '아이디와 비밀번호 모두 입력하세요.';
-          return;
-        }
         await this.SIGN_IN(this.signInRequest);
         this.$router.push({ name: 'friend' });
       } catch (error) {
-        Swal.fire({
-          position: 'center',
-          icon: 'warning',
-          width: 350,
-          title:
-            '<div style="font-size: 18px; font-family: "Spoqa Han Sans Neo", "sans-serif"; ">로그인 실패<div>',
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        this.clear();
+        this.isError = true;
+        this.errorMsg = error.response.data.message;
       }
     },
     clear() {
