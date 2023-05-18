@@ -43,8 +43,8 @@ const actions = {
   async DELETE_DIARY(context, diaryId) {
     await Diary.deleteDiary(diaryId);
   },
-  async UPDATE_DIARY(context, diaryRequest) {
-    await Diary.updateDiary(diaryRequest);
+  async UPDATE_DIARY(context, { diaryId, diaryRequest }) {
+    await Diary.updateDiary(diaryId, diaryRequest);
   },
 };
 

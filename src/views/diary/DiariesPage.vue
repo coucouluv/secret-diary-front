@@ -29,12 +29,14 @@
           <v-col v-for="card in diaries" :key="card.title" :cols="4">
             <v-card @click="show(card.diaryId, $event)">
               <v-img
+                v-if="card.image"
                 :src="`http://3.34.235.131/images/${card.image}`"
+                :lazy-src="`http://3.34.235.131/images/${card.image}`"
                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                height="200px"
-                loading="lazy"
+                height="300px"
               >
               </v-img>
+              <v-img v-else height="300px" src="@/assets/bear2.png"></v-img>
               <v-card-subtitle class="pb-3">
                 {{ card.title }}
               </v-card-subtitle>

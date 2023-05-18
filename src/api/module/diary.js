@@ -1,6 +1,6 @@
 import { instanceWithToken } from '@/api/index';
 
-const BASE_URL = '/api/diary';
+const BASE_URL = '/api/diaries';
 
 const diary = {
   getDiaries(request) {
@@ -17,8 +17,8 @@ const diary = {
   deleteDiary(diaryId) {
     return instanceWithToken.delete(`${BASE_URL}/${diaryId}`);
   },
-  updateDiary(diaryRequest) {
-    return instanceWithToken.patch(`${BASE_URL}`, diaryRequest);
+  updateDiary(diaryId, diaryRequest) {
+    return instanceWithToken.patch(`${BASE_URL}/${diaryId}`, diaryRequest);
   },
 };
 

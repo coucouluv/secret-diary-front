@@ -131,9 +131,11 @@ export default {
         if (this.diary.diaryId) {
           const request = {
             diaryId: this.diary.diaryId,
-            title: this.diary.title,
-            text: this.diary.text,
-            image: this.diary.image,
+            diaryRequest: {
+              title: this.diary.title,
+              text: this.diary.text,
+              image: this.diary.image,
+            },
           };
           await this.UPDATE_DIARY(request);
         } else {

@@ -42,7 +42,12 @@
           </div>
         </v-row>
         <v-row dense class="img">
-          <v-img v-if="image" height="400" width="250" :src="image"></v-img>
+          <v-img
+            v-if="image"
+            height="400"
+            width="250"
+            :src="`http://3.34.235.131/images/${image}`"
+          ></v-img>
         </v-row>
         <v-row dense>
           <div>
@@ -83,7 +88,7 @@ export default {
       try {
         await this.DIARY(this.diaryId);
         this.diary = this.GET_DIARY;
-        this.image = process.env.VUE_APP_IMAGE_URL + this.diary.image;
+        this.image = this.diary.image;
       } catch (error) {
         failToast(error.response.data.message);
       }
