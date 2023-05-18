@@ -20,7 +20,6 @@ export function setInterceptors(instance) {
     async function (error) {
       const status = error.response.status;
       const originalRequest = error.config;
-      console.log('나 여기 옴');
       if (status === 401) {
         const request = {
           refreshToken: localStorage.getItem('refreshToken'),
@@ -33,7 +32,6 @@ export function setInterceptors(instance) {
             originalRequest.headers = {
               Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
             };
-            console.log(originalRequest);
             return instance.request(originalRequest);
           })
           .catch(error => {
