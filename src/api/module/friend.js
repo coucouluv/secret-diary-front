@@ -1,6 +1,6 @@
 import { instanceWithToken } from '@/api/index';
 
-const BASE_URL = '/api/friend';
+const BASE_URL = '/api/friends';
 
 const friend = {
   getFriends(request) {
