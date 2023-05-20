@@ -67,7 +67,7 @@ export default {
     diaries: [],
     request: {
       friendId: '',
-      page: 0,
+      id: '',
       size: 9,
     },
     hasNext: true,
@@ -84,7 +84,7 @@ export default {
       try {
         await this.DIARIES(this.request);
         this.diaries = this.diaries.concat(this.GET_DIARIES.diaries);
-        this.request.page++;
+        this.request.id = this.GET_DIARIES.nextId;
         if (!this.GET_DIARIES.hasNext) {
           this.hasNext = false;
           $state.complete();
