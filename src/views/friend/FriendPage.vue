@@ -8,7 +8,13 @@
     >
       <system-bar />
       <div class="apply">
-        <v-btn plain>초대하기</v-btn>
+        <v-btn plain @click="invitation = true">초대하기</v-btn>
+        <v-dialog max-width="600" v-model="invitation">
+          <invitation-dialog
+            @hide="hideInvitation"
+            @submit="submitInvitation"
+          />
+        </v-dialog>
         <v-text-field
           v-model="friendId"
           label="친구 신청"
@@ -75,6 +81,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import InvitationDialog from '@/components/InvitationDialog.vue';
 import SystemBar from '@/components/SystemBar.vue';
 import InfiniteLoading from 'vue-infinite-loading';
 import { successToast, failToast } from '@/utils/toast.js';
@@ -82,11 +89,13 @@ export default {
   components: {
     SystemBar,
     InfiniteLoading,
+    InvitationDialog,
   },
   data: () => ({
     divider: true,
     insert: true,
     friendId: '',
+    invitation: false,
     header: '친구 목록',
     friends: [],
     request: {
@@ -99,7 +108,7 @@ export default {
     ...mapGetters(['FRIEND_LIST']),
   },
   methods: {
-    ...mapActions(['GET_FRIENDS', 'APPLY_FRIEND']),
+    ...mapActions(['GET_FRIENDS', 'APPLY_FRIEND', 'INVITE_FRIEND']),
     async initFriend($state) {
       try {
         await this.GET_FRIENDS(this.request);
@@ -126,6 +135,21 @@ export default {
     },
     diary(id) {
       this.$router.push({ name: 'diaries', query: { id: id } });
+    },
+    hideInvitation() {
+      this.invitation = false;
+    },
+    async submitInvitation(email) {
+      try {
+        const request = {
+          email: email,
+        };
+        await this.INVITE_FRIEND(request);
+        this.hideInvitation();
+        successToast('초대장 보내기 완료!');
+      } catch (error) {
+        failToast(error.response.data.message);
+      }
     },
   },
 };
