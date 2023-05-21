@@ -22,6 +22,9 @@ const friend = {
   denyFriend(friendId) {
     return instanceWithToken.post(`${BASE_URL}/deny/${friendId}`);
   },
+  inviteFriend(email) {
+    return instanceWithToken.post(`${BASE_URL}/invitation`, email);
+  },
 };
 
 export default friend;
