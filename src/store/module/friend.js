@@ -36,6 +36,9 @@ const actions = {
   async ACCEPT_FRIEND(context, friendId) {
     await Friend.acceptFriend(friendId);
   },
+  async INVITE_FRIEND(context, email) {
+    await Friend.inviteFriend(email);
+  },
 };
 
 export default {
