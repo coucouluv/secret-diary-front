@@ -8,14 +8,14 @@
     >
       <system-bar />
       <v-app-bar color="white" dense>
-        <v-btn icon @click="update">
+        <v-btn v-if="diary.sameWriter" icon @click="update">
           <font-awesome-icon
             icon="fa-solid fa-pen-to-square"
             size="lg"
             color="#c6b3a6"
           />
         </v-btn>
-        <v-btn icon @click="deleteMsg">
+        <v-btn v-if="diary.sameWriter" icon @click="deleteMsg">
           <font-awesome-icon
             icon="fa-solid fa-trash"
             size="lg"
@@ -31,6 +31,16 @@
           />
         </v-btn>
       </v-app-bar>
+      <v-card-subtitle>
+        <v-avatar size="36px">
+          <v-img
+            v-if="diary.writer.image"
+            alt="Avatar"
+            :src="`http://3.34.235.131/images/${diary.writer.image}`"
+          ></v-img>
+        </v-avatar>
+        {{ diary.writer.userId }}
+      </v-card-subtitle>
       <v-card-subtitle>
         <font-awesome-icon icon="fa-solid fa-calendar-days" color="#c6b3a6" />
         {{ diary.saveDate }}

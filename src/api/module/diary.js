@@ -5,7 +5,7 @@ const BASE_URL = '/api/diaries';
 const diary = {
   getDiaries(request) {
     return instanceWithToken.get(
-      `${BASE_URL}/info/${request.friendId}?page=${request.page}&size=${request.size}`,
+      `${BASE_URL}/${request.friendId}/friends?id=${request.id}&size=${request.size}`,
     );
   },
   getDiary(diaryId) {

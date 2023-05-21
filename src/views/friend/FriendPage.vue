@@ -7,16 +7,17 @@
       min-height="400"
     >
       <system-bar />
-      <div>
+      <div class="apply">
+        <v-btn plain>초대하기</v-btn>
         <v-text-field
-          class="apply"
           v-model="friendId"
           label="친구 신청"
           placeholder="아이디를 입력하세요"
           solo
           append-icon="mdi-magnify"
           @click:append="applyFriend"
-        ></v-text-field>
+        >
+        </v-text-field>
       </div>
       <div class="list">
         <v-list three-line>
