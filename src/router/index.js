@@ -68,6 +68,11 @@ const routes = [
     name: 'info',
     component: () => import('@/views/info/InfoPage.vue'),
   },
+  {
+    path: '*',
+    name: 'notFound',
+    component: () => import('@/views/NotFoundPage.vue'),
+  },
 ];
 
 const router = new VueRouter({
