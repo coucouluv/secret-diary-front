@@ -85,6 +85,7 @@ export default {
       text: '',
       image: '',
     },
+    friendId: '',
     preview: '',
     url: {},
     isError: false,
@@ -97,7 +98,7 @@ export default {
   },
   created() {
     this.initDiary();
-    this.diary.id = this.$route.query.id;
+    this.friendId = this.$route.query.id;
   },
   methods: {
     ...mapActions(['UPLOAD', 'SAVE_DIARY', 'UPDATE_DIARY']),
@@ -128,9 +129,9 @@ export default {
           await this.UPLOAD(formData);
           this.diary.image = this.GET_URL;
         }
-        if (this.diary.diaryId) {
+        if (this.diary.id) {
           const request = {
-            diaryId: this.diary.diaryId,
+            diaryId: this.diary.id,
             diaryRequest: {
               title: this.diary.title,
               text: this.diary.text,
@@ -144,7 +145,7 @@ export default {
         successToast('다이어리 등록 완료!');
         this.$router.push({
           name: 'diaries',
-          query: { id: this.diary.id },
+          query: { id: this.friendId },
         });
       } catch (error) {
         failToast(error.response.data.message);
