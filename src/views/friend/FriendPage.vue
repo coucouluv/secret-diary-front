@@ -37,7 +37,7 @@
             <v-list-item :key="item.name">
               <v-list-item-avatar>
                 <v-img
-                  v-if="item.image != null"
+                  v-if="item.image"
                   :src="`http://3.34.235.131/images/${item.image}`"
                 ></v-img>
                 <v-img v-else src="@/assets/bear2.png"></v-img>
