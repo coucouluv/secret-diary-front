@@ -38,6 +38,7 @@
             alt="Avatar"
             :src="`http://3.34.235.131/images/${diary.writer.image}`"
           ></v-img>
+          <v-img v-else alt="Avatar" src="@/assets/bear2.png"></v-img>
         </v-avatar>
         {{ diary.writer.userId }}
       </v-card-subtitle>

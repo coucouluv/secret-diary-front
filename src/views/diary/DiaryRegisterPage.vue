@@ -140,7 +140,13 @@ export default {
           };
           await this.UPDATE_DIARY(request);
         } else {
-          await this.SAVE_DIARY(this.diary);
+          const request = {
+            id: this.friendId,
+            title: this.diary.title,
+            text: this.diary.text,
+            image: this.diary.image,
+          };
+          await this.SAVE_DIARY(request);
         }
         successToast('다이어리 등록 완료!');
         this.$router.push({
@@ -154,7 +160,7 @@ export default {
     cancel() {
       this.$router.push({
         name: 'diaries',
-        query: { id: this.diary.id },
+        query: { id: this.friendId },
       });
     },
   },
