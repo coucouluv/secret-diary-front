@@ -4,7 +4,7 @@
       <v-img
         v-if="member.image"
         height="350"
-        :src="`http://3.34.235.131/images/${member.image}`"
+        :src="`https://img.secret-diary.site/images/${member.image}`"
       ></v-img>
       <v-img v-else height="350" src="@/assets/bear2.png"></v-img>
       <v-card-title class="justify-center">{{ member.name }}</v-card-title>
