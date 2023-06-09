@@ -16,7 +16,7 @@ const routes = [
     },
   },
   {
-    path: '/friend',
+    path: '/friends',
     name: 'friend',
     component: () => import('@/views/friend/FriendPage.vue'),
   },
@@ -46,19 +46,19 @@ const routes = [
     component: () => import('@/views/friend/WaitingFriendPage.vue'),
   },
   {
-    path: '/diaries',
+    path: '/friends/:friendId/diaries',
     name: 'diaries',
     props: true,
     component: () => import('@/views/diary/DiariesPage.vue'),
   },
   {
-    path: '/diary',
+    path: '/friends/:friendId/diaries/:id',
     name: 'diary',
     props: true,
     component: () => import('@/views/diary/DiaryPage.vue'),
   },
   {
-    path: '/diary/register',
+    path: '/diaries',
     name: 'diaryRegister',
     props: true,
     component: () => import('@/views/diary/DiaryRegisterPage.vue'),

@@ -21,7 +21,7 @@
       color="black"
       icons-and-text
     >
-      <v-tab to="/friend">
+      <v-tab to="/friends">
         친구 목록
         <v-img
           class="mx-2"
