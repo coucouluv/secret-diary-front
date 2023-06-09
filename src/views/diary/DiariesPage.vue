@@ -27,11 +27,14 @@
       <v-container fluid>
         <v-row dense>
           <v-col v-for="card in diaries" :key="card.title" :cols="4">
-            <v-card @click="show(card.diaryId, $event)">
+            <v-card
+              router-link
+              :to="`/friends/${request.friendId}/diaries/${card.diaryId}`"
+            >
               <v-img
                 v-if="card.image"
-                :src="`http://3.34.235.131/images/${card.image}`"
-                :lazy-src="`http://3.34.235.131/images/${card.image}`"
+                :src="`https://img.secret-diary.site/images/${card.image}`"
+                :lazy-src="`https://img.secret-diary.site/images/${card.image}`"
                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                 height="300px"
               >
@@ -76,7 +79,7 @@ export default {
     ...mapGetters(['GET_DIARIES']),
   },
   created() {
-    this.request.friendId = this.$route.query.id;
+    this.request.friendId = this.$route.params.friendId;
   },
   methods: {
     ...mapActions(['DIARIES']),
@@ -99,12 +102,6 @@ export default {
       this.$router.push({
         name: 'diaryRegister',
         query: { id: this.request.friendId },
-      });
-    },
-    show(diaryId) {
-      this.$router.push({
-        name: 'diary',
-        query: { id: this.request.friendId, diary: diaryId },
       });
     },
   },
