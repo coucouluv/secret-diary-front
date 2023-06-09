@@ -16,7 +16,7 @@
           />
         </v-btn>
         <v-spacer></v-spacer>
-        <v-btn icon @click="cancel">
+        <v-btn icon router-link :to="`/friends/${friendId}/diaries`">
           <font-awesome-icon
             icon="fa-solid fa-xmark"
             size="lg"
@@ -149,19 +149,10 @@ export default {
           await this.SAVE_DIARY(request);
         }
         successToast('다이어리 등록 완료!');
-        this.$router.push({
-          name: 'diaries',
-          query: { id: this.friendId },
-        });
+        this.$router.push({ path: '/friends/' + this.friendId + '/diaries' });
       } catch (error) {
         failToast(error.response.data.message);
       }
-    },
-    cancel() {
-      this.$router.push({
-        name: 'diaries',
-        query: { id: this.friendId },
-      });
     },
   },
 };
