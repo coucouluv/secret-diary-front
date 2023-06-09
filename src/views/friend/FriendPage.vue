@@ -55,7 +55,8 @@
                   rounded
                   color="brown lighten-4"
                   dark
-                  @click="diary(item.id, $event)"
+                  router-link
+                  :to="`/friends/${item.id}/diaries`"
                 >
                   일기장
                   <v-img
@@ -132,9 +133,6 @@ export default {
       } catch (error) {
         failToast(error.response.data.message);
       }
-    },
-    diary(id) {
-      this.$router.push({ name: 'diaries', query: { id: id } });
     },
     hideInvitation() {
       this.invitation = false;

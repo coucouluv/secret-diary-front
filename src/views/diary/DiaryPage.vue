@@ -23,7 +23,7 @@
           />
         </v-btn>
         <v-spacer></v-spacer>
-        <v-btn icon @click="back">
+        <v-btn icon router-link :to="`/friends/${friendId}/diaries`">
           <font-awesome-icon
             icon="fa-solid fa-xmark"
             size="lg"
@@ -36,7 +36,7 @@
           <v-img
             v-if="diary.writer.image"
             alt="Avatar"
-            :src="`http://3.34.235.131/images/${diary.writer.image}`"
+            :src="`https://img.secret-diary.site/images/${diary.writer.image}`"
           ></v-img>
           <v-img v-else alt="Avatar" src="@/assets/bear2.png"></v-img>
         </v-avatar>
@@ -57,7 +57,7 @@
             v-if="image"
             height="400"
             width="250"
-            :src="`http://3.34.235.131/images/${image}`"
+            :src="`https://img.secret-diary.site/images/${image}`"
           ></v-img>
         </v-row>
         <v-row dense>
@@ -89,8 +89,8 @@ export default {
     ...mapGetters(['GET_DIARY']),
   },
   created() {
-    this.friendId = this.$route.query.id;
-    this.diaryId = this.$route.query.diary;
+    this.friendId = this.$route.params.friendId;
+    this.diaryId = this.$route.params.id;
     this.initdiary();
   },
   methods: {
@@ -103,9 +103,6 @@ export default {
       } catch (error) {
         failToast(error.response.data.message);
       }
-    },
-    back() {
-      this.$router.push({ name: 'diaries', query: { id: this.friendId } });
     },
     update() {
       this.$router.push({
@@ -136,7 +133,7 @@ export default {
     async deleteDiary() {
       try {
         await this.DELETE_DIARY(this.diaryId);
-        this.back();
+        this.$router.push({ path: '/friends/' + this.friendId + '/diaries' });
       } catch (error) {
         failToast(error.response.data.message);
       }
